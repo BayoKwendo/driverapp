@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "220620749534",
+    "firebase_url": "https://driller-3a61b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "driller-3a61b",
+    "storage_bucket": "driller-3a61b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220620749534:android:4196acee8f75eca226204f",
+        "android_client_info": {
+          "package_name": "com.spartons.antoniasdriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC66RjE6ow_gJ8HbexLady8Nm6jae5dG8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220620749534:android:4eeb6db8c0f395d126204f",
+        "android_client_info": {
+          "package_name": "com.spartons.antonis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC66RjE6ow_gJ8HbexLady8Nm6jae5dG8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
