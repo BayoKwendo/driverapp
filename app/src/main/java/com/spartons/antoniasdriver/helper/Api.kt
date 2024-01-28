@@ -76,6 +76,8 @@ interface Api {
     @POST("deactivate_user")
     fun switchUser(@Body map: java.util.HashMap<String, String>): Call<ResponseBody?>?
 
+    @POST("update_location")
+    fun updateLocation(@Body map: java.util.HashMap<String, String>): Call<ResponseBody?>?
     @POST("register")
     @Headers("Content-Type: application/json")
     fun register(@Body map: Map<String?, String?>?): Call<ResponseBody?>?

@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_DENIED
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -15,7 +17,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -32,6 +33,8 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
+import java.util.Locale
 import kotlin.jvm.internal.Intrinsics
 
 
@@ -221,7 +224,8 @@ class MainActivity : AppCompatActivity() {
                 super.onLocationResult(locationResult)
                 if (locationResult!!.lastLocation == null) return
                 val latLng = LatLng(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude)
-                Log.e("Location", latLng.latitude.toString() + " , " + latLng.longitude)
+                getAddress(latLng.latitude, latLng.longitude)
+                Log.e("Location", locationResult.toString() + " , " + latLng.longitude)
                 if (locationFlag) {
                     locationFlag = false
                     animateCamera(latLng)
@@ -245,6 +249,20 @@ class MainActivity : AppCompatActivity() {
         googleMap.animateCamera(cameraUpdate, 10, null)
     }
 
+    fun getAddress(lat: Double, lng: Double) {
+        val geocoder = Geocoder(this, Locale.getDefault())
+        try {
+            val addresses: List<Address>? = geocoder.getFromLocation(lat, lng, 5)
+            val obj: Address = addresses!![0]
+            updateLocation(lat.toString(), lng.toString(), obj.locality)
+            // TennisAppActivity.showDialog(add);
+        } catch (e: IOException) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
@@ -255,6 +273,45 @@ class MainActivity : AppCompatActivity() {
             } else if (value == PERMISSION_GRANTED) requestLocationUpdate()
         }
 
+    }
+
+
+
+
+    fun updateLocation(lat: String, longitude: String, loc: String){
+        val sharedPreferences = getSharedPreferences("Onfon", 0)
+
+        val params: java.util.HashMap<String, String> = java.util.HashMap()
+        params["id"] = sharedPreferences.getString("user_id", "").toString()
+        params["longitude"] = longitude
+        params["lat"] = lat
+        params["location"] = loc
+
+        RetrofitClient.instance!!.api.updateLocation(params)!!.enqueue(object :
+            Callback<ResponseBody?> {
+            override fun onResponse(
+                call: Call<ResponseBody?>,
+                response: Response<ResponseBody?>
+            ) {
+
+                val jSONObject = JSONObject(response.body()!!.string())
+                if (!response.isSuccessful || response.code() !== 200) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        jSONObject.getString("message"),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return
+                } else {
+
+                    Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                Log.i("onEmptyvvResponse", "" + t) //
+                Toast.makeText(this@MainActivity, "Error switching", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
 }
