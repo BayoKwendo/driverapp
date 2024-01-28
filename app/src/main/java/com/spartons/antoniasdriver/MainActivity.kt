@@ -292,21 +292,7 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<ResponseBody?>,
                 response: Response<ResponseBody?>
-            ) {
-
-                val jSONObject = JSONObject(response.body()!!.string())
-                if (!response.isSuccessful || response.code() !== 200) {
-                    Toast.makeText(
-                        this@MainActivity,
-                        jSONObject.getString("message"),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return
-                } else {
-
-                    Toast.makeText(this@MainActivity, "Success", Toast.LENGTH_SHORT).show()
-                }
-            }
+            ) {}
             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
                 Log.i("onEmptyvvResponse", "" + t) //
                 Toast.makeText(this@MainActivity, "Error switching", Toast.LENGTH_SHORT).show()
