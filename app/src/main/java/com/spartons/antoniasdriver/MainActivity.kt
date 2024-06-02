@@ -73,6 +73,8 @@ class MainActivity : AppCompatActivity() {
 
     var driver_status: String? = "Available"
     var customer_number: String? = ""
+    var customer_user_id: String? = ""
+
     var customer_id: String? = ""
     var customer_to_pay: String? = "0"
     var customer_to_total: String? = "0"
@@ -264,6 +266,8 @@ class MainActivity : AppCompatActivity() {
 
                         driver_status = itemObj.getString("booking_status")
 
+                        customer_user_id = itemObj.getString("muser_id")
+
                         customer_id = itemObj.getString("id_number_cus")
                         customer_number = itemObj.getString("msisdn_cus")
                         customer_to_pay = itemObj.getString("amount_paid")
@@ -397,6 +401,15 @@ class MainActivity : AppCompatActivity() {
 
             val margindec =
                 layout_pwd.findViewById<TextView>(R.id.tvdesc) as TextView
+
+            if(driver_status == "available"){
+                margindec.visibility =View.VISIBLE
+                margintext.visibility =View.GONE
+                mid_booking.visibility = View.GONE
+                margindec.text = "Your are waiting for new jobs"
+//                mid_booking.text = "Request Payment"
+//                mstatus = "Finished"
+            }
         if(driver_status == "booked"){
             margindec.visibility =View.VISIBLE
             margintext.visibility =View.VISIBLE
@@ -411,10 +424,16 @@ class MainActivity : AppCompatActivity() {
             mstatus = "arrived"
         }
         if(driver_status == "arrived"){
-            margindec.visibility =View.VISIBLE
-            margintext.visibility =View.GONE
+            margindec.visibility =View.GONE
+            margintext.visibility =View.VISIBLE
             val bal = customer_to_total?.toInt()!! - customer_to_pay?.toInt()!!
-            margindec.text = "Click on the below to request customer for final payment of Ksh. $bal. Call $customer_number to close booking number $book_id"
+//            margindec.text = "Click on the below to request customer for final payment of Ksh. $bal. Call $customer_number to close booking number $book_id"
+            margintext.movementMethod= LinkMovementMethod.getInstance()
+            margintext.setLinkTextColor(getResources().getColor(R.color.colorSecod))
+            val html = "Click on the below to request customer for final payment of Ksh. $bal. Call $customer_number to close booking number $book_id"
+            margintext.text = html
+            Linkify.addLinks(margintext, Linkify.WEB_URLS or Linkify.PHONE_NUMBERS)
+            Linkify.addLinks(margintext, Linkify.ALL)
             mid_booking.text = "Request Payment"
             mstatus = "Finished"
         }
@@ -450,7 +469,7 @@ class MainActivity : AppCompatActivity() {
                     val params: java.util.HashMap<String, String> = java.util.HashMap()
                     params["id_number"] = customer_id.toString()
                     params["msisdn"] = customer_number.toString()
-                    params["id_record"] = customer_id.toString()
+                    params["id_record"] = customer_user_id.toString()
                     params["amount"] = bal.toString()
                     RetrofitClient.instance!!.api.StK2(params)!!
                         .enqueue(object : Callback<ResponseBody?> {
@@ -466,7 +485,7 @@ class MainActivity : AppCompatActivity() {
                                         Log.d(ContentValues.TAG, "addItemsFromJSON: ", e)
                                     }
                                 } else {
-                                    Log.d("string", response.errorBody()!!.string())
+//                                    Log.d("string", response.errorBody()!!.string())
                                 }
                             }
                             override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {

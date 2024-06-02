@@ -33,6 +33,7 @@
                     android:textColor="?editTextColor"
                     android:textSize="15.0sp"
                     android:visibility="gone"
+                    android:layout_marginBottom="40dp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -45,7 +46,7 @@
                     android:autoLink="web"
                     android:visibility="gone"
                     android:textColor="?editTextColor"
-                    android:textSize="15.0sp"
+                    android:textSize="18.0sp"
                     android:layout_marginBottom="40dp"
                     android:textStyle="bold" />
 
