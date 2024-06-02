@@ -32,11 +32,24 @@
             android:theme="@style/SCBSwitch" />
 
 
+        <Button
+            android:id="@+id/actionnbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginEnd="15dp"
+            android:textColor="@android:color/black"
+            android:text="Take Action"
+            android:theme="@style/SCBSwitch" />
+
         <ImageView
             android:id="@+id/logut"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
+            android:visibility="gone"
             android:layout_marginEnd="15dp"
             android:src="@drawable/ic_baseline_logout_24" />
 

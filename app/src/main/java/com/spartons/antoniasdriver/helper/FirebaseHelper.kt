@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.spartons.antoniasdriver.model.Driver
 
-class FirebaseHelper constructor(driverId: String) {
+class FirebaseHelper(driverId: String) {
 
     companion object {
         private const val ONLINE_DRIVERS = "online_drivers"

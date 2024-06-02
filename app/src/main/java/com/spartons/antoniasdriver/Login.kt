@@ -113,12 +113,12 @@ class Login : AppCompatActivity() {
                             0
                         ) // 0 - for private mode
                     val edit: SharedPreferences.Editor = pref!!.edit()
-                    edit.putBoolean("isLogin", true);
-                    edit.putString("token", jSONObject.getString("token"));
-                    edit.putString("user_id", jSONObject2.getString("id"));
-                    edit.putString("role", jSONObject2.getString("role"));
-                    edit.clear();
-                    edit.apply();
+                    edit.putBoolean("isLogin", true)
+                    edit.putString("token", jSONObject.getString("token"))
+                    edit.putString("user_id", jSONObject2.getString("id"))
+                    edit.putString("role", jSONObject2.getString("role"))
+                    edit.clear()
+                    edit.apply()
 
                     Timer().schedule(object : TimerTask() {
                         override fun run() {
